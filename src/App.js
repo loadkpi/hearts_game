@@ -6,7 +6,13 @@ const getCustomWinMessage = () => {
   const encodedMessage = urlParams.get('msg');
   if (encodedMessage) {
     try {
-      return atob(encodedMessage);
+      // Proper UTF-8 decoding for base64
+      const binaryString = atob(encodedMessage);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return new TextDecoder('utf-8').decode(bytes);
     } catch (e) {
       console.warn('Invalid base64 message parameter');
     }
