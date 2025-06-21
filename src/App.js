@@ -40,7 +40,10 @@ const App = () => {
   const [won, setWon] = useState(false);
   const [targetIndex, setTargetIndex] = useState(0);
   const [showInfo, setShowInfo] = useState(true);
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState(() => {
+    const browserLang = navigator.language || navigator.userLanguage;
+    return browserLang.startsWith('ru') ? 'ru' : 'en';
+  });
   const containerRef = useRef(null);
 
   const customWinMessage = getCustomWinMessage();
